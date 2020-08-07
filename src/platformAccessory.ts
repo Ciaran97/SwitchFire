@@ -19,6 +19,7 @@ admin.initializeApp({
 
 var db = admin.database();
 var ref = db.ref("GPIO_23");
+var ref1 = db.ref("GPIO_18");
 
 
 export class ExamplePlatformAccessory {
@@ -84,13 +85,22 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
-    if(value as boolean){
+   
+      if(this.accessory.UUID === 'ABCD'){
+         if(value as boolean){
       ref.set("on");
     }else{
       ref.set("off");
 
     }
-      
+      }else if (this.accessory.UUID === 'ABCDE'){
+        if(value as boolean){
+          ref1.set("on");
+        }else{
+          ref1.set("off");
+    
+        }
+      }
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
@@ -115,8 +125,8 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to check if the device is on
     var isOn; 
-    
-    ref.on("value", function(snapshot) {
+    if(this.accessory.UUID === 'ABCD'){
+      ref.once("value", function(snapshot) {
       if(snapshot.val() === 'on'){
         isOn = true;
       }else{
@@ -124,6 +134,15 @@ export class ExamplePlatformAccessory {
       }
 
     })
+    }else if(this.accessory.UUID === 'ABCDE'){
+      ref1.once("value", function(snapshot) {
+        if(snapshot.val() === 'on'){
+          isOn = true;
+        }else{
+          isOn = false;
+        }
+    });
+  }
       
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
