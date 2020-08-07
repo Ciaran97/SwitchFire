@@ -84,8 +84,13 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
-
+    if(value as boolean){
       ref.set("on");
+    }else{
+      ref.set("off");
+
+    }
+      
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
@@ -115,6 +120,11 @@ export class ExamplePlatformAccessory {
       isOn = snapshot.val();
     });
 
+    if(isOn === 'on'){
+      isOn = true;
+    }else{
+      isOn = false;
+    }
 
 
 
