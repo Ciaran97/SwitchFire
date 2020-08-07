@@ -18,12 +18,14 @@ admin.initializeApp({
 
 
 var db = admin.database();
-var ref = db.ref("GPIO_23");
-var ref1 = db.ref("GPIO_18");
+
+
 
 
 export class ExamplePlatformAccessory {
   private service: Service;
+
+  
 
   /**
    * These are just used to create a working example
@@ -37,7 +39,7 @@ export class ExamplePlatformAccessory {
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
   ) {
-
+    var ref = db.ref(this.accessory.displayName);
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Firebase')
@@ -125,6 +127,7 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to check if the device is on
     var isOn; 
+    
    // this.service.UUID
     if(this.accessory.displayName === 'GPIO 23'){
       ref.once("value", function(snapshot) {
