@@ -1,6 +1,6 @@
 {
   "private": true,
-  "displayName": "Switch Fire",
+  "displayName": "SwitchFire",
   "name": "homebridge-switchfire",
   "version": "1.0.0",
   "description": "A short description about what your plugin does.",

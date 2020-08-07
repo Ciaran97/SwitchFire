@@ -86,14 +86,14 @@ export class ExamplePlatformAccessory {
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
    
-      if(this.accessory.UUID === 'ABCD'){
+      if(this.service.UUID === 'ABCD'){
          if(value as boolean){
       ref.set("on");
     }else{
       ref.set("off");
 
     }
-      }else if (this.accessory.UUID === 'ABCDE'){
+      }else if (this.service.UUID === 'ABCDE'){
         if(value as boolean){
           ref1.set("on");
         }else{
@@ -125,7 +125,8 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to check if the device is on
     var isOn; 
-    if(this.accessory.UUID === 'ABCD'){
+   // this.service.UUID
+    if(this.service.UUID === 'ABCD'){
       ref.once("value", function(snapshot) {
       if(snapshot.val() === 'on'){
         isOn = true;
@@ -134,7 +135,7 @@ export class ExamplePlatformAccessory {
       }
 
     })
-    }else if(this.accessory.UUID === 'ABCDE'){
+    }else if(this.service.UUID === 'ABCDE'){
       ref1.once("value", function(snapshot) {
         if(snapshot.val() === 'on'){
           isOn = true;
