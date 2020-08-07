@@ -58,9 +58,6 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
       {
         exampleUniqueId: 'ABCD',
         exampleDisplayName: 'GPIO_23',
-      },  {
-        exampleUniqueId: 'ABCDE',
-        exampleDisplayName: 'GPIO_18',
       }
       
     ];

@@ -34,7 +34,7 @@ export class ExamplePlatformAccessory {
   private exampleStates = {
     On: false
   }
-private ref = db.ref(this.accessory.displayName);
+private ref = db.ref("GPIO_23");
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
@@ -124,7 +124,7 @@ private ref = db.ref(this.accessory.displayName);
     
    // this.service.UUID
    
-      this.ref.once("value", function(snapshot) {
+      this.ref.on("value", function(snapshot) {
       if(snapshot.val() === 'on'){
         isOn = true;
       }else{
