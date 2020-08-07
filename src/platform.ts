@@ -57,7 +57,10 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     const exampleDevices = [
       {
         exampleUniqueId: 'ABCD',
-        exampleDisplayName: 'Bedroom',
+        exampleDisplayName: 'GPIO 23',
+      },  {
+        exampleUniqueId: 'ABCDE',
+        exampleDisplayName: 'GPIO 18',
       }
       
     ];
