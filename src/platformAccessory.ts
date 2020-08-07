@@ -34,12 +34,12 @@ export class ExamplePlatformAccessory {
   private exampleStates = {
     On: false
   }
-
+private ref = db.ref(this.accessory.displayName);
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
   ) {
-    var ref = db.ref(this.accessory.displayName);
+    
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Firebase')
@@ -88,20 +88,14 @@ export class ExamplePlatformAccessory {
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
    
-      if(this.accessory.displayName === 'GPIO 23'){
+     
          if(value as boolean){
-      ref.set("on");
+      this.ref.set("on");
     }else{
-      ref.set("off");
+      this.ref.set("off");
 
-    }
-      }else if (this.accessory.displayName === 'GPIO 18'){
-        if(value as boolean){
-          ref1.set("on");
-        }else{
-          ref1.set("off");
     
-        }
+      
       }
 
     this.platform.log.debug('Set Characteristic On ->', value);
@@ -129,8 +123,8 @@ export class ExamplePlatformAccessory {
     var isOn; 
     
    // this.service.UUID
-    if(this.accessory.displayName === 'GPIO 23'){
-      ref.once("value", function(snapshot) {
+   
+      this.ref.once("value", function(snapshot) {
       if(snapshot.val() === 'on'){
         isOn = true;
       }else{
@@ -138,15 +132,8 @@ export class ExamplePlatformAccessory {
       }
 
     })
-    }else if(this.accessory.displayName === 'GPIO 18'){
-      ref1.once("value", function(snapshot) {
-        if(snapshot.val() === 'on'){
-          isOn = true;
-        }else{
-          isOn = false;
-        }
-    });
-  }
+    
+  
       
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
