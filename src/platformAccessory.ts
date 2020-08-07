@@ -64,8 +64,8 @@ export class ExamplePlatformAccessory {
       .on('get', this.getOn.bind(this));               // GET - bind to the `getOn` method below
 
     // register handlers for the Brightness Characteristic
-    this.service.getCharacteristic(this.platform.Characteristic.Brightness)
-      .on('set', this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
+  //  this.service.getCharacteristic(this.platform.Characteristic.Brightness)
+    //  .on('set', this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
 
     // EXAMPLE ONLY
     // Example showing how to update the state of a Characteristic asynchronously instead
@@ -116,38 +116,33 @@ export class ExamplePlatformAccessory {
     // implement your own code to check if the device is on
     var isOn; 
     
-    ref.once("value", function(snapshot) {
-      isOn = snapshot.val();
-    });
+    ref.on("value", function(snapshot) {
+      if(snapshot.val() === 'on'){
+        isOn = true;
+      }else{
+        isOn = false;
+      }
 
-    if(isOn === 'on'){
-      isOn = true;
-    }else{
-      isOn = false;
-    }
-
-
-
+    })
+      
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
     // you must call the callback function
     // the first argument should be null if there were no errors
     // the second argument should be the value to return
     callback(null, isOn);
+    
+
+    
+
+
+
   }
 
   /**
    * Handle "SET" requests from HomeKit
    * These are sent when the user changes the state of an accessory, for example, changing the Brightness
    */
-  setBrightness(value: CharacteristicValue, callback: CharacteristicSetCallback) {
-
-  
-
-    this.platform.log.debug('Set Characteristic Brightness -> ', value);
-
-    // you must call the callback function
-    callback(null);
-  }
+ 
 
 }
