@@ -86,14 +86,14 @@ export class ExamplePlatformAccessory {
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
    
-      if(this.service.UUID === 'ABCD'){
+      if(this.accessory.displayName === 'GPIO 23'){
          if(value as boolean){
       ref.set("on");
     }else{
       ref.set("off");
 
     }
-      }else if (this.service.UUID === 'ABCDE'){
+      }else if (this.accessory.displayName === 'GPIO 18'){
         if(value as boolean){
           ref1.set("on");
         }else{
@@ -126,7 +126,7 @@ export class ExamplePlatformAccessory {
     // implement your own code to check if the device is on
     var isOn; 
    // this.service.UUID
-    if(this.service.UUID === 'ABCD'){
+    if(this.accessory.displayName === 'GPIO 23'){
       ref.once("value", function(snapshot) {
       if(snapshot.val() === 'on'){
         isOn = true;
@@ -135,7 +135,7 @@ export class ExamplePlatformAccessory {
       }
 
     })
-    }else if(this.service.UUID === 'ABCDE'){
+    }else if(this.accessory.displayName === 'GPIO 18'){
       ref1.once("value", function(snapshot) {
         if(snapshot.val() === 'on'){
           isOn = true;
