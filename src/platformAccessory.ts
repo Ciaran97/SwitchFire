@@ -1,12 +1,26 @@
 import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from 'homebridge';
 
 import { ExampleHomebridgePlatform } from './platform';
+import * as admin from 'firebase-admin';
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
+
+var serviceAccount = require("/home/pi/credentials/ServiceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://rasppi-e0b14.firebaseio.com'
+});
+
+
+var db = admin.database();
+var ref = db.ref("GPIO_23");
+
+
 export class ExamplePlatformAccessory {
   private service: Service;
 
@@ -15,8 +29,7 @@ export class ExamplePlatformAccessory {
    * You should implement your own code to track the state of your accessory
    */
   private exampleStates = {
-    On: false,
-    Brightness: 100,
+    On: false
   }
 
   constructor(
@@ -26,8 +39,8 @@ export class ExamplePlatformAccessory {
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
-      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Default-Manufacturer')
-      .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
+      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Firebase')
+      .setCharacteristic(this.platform.Characteristic.Model, 'RaspBerry-Pi')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
@@ -60,15 +73,7 @@ export class ExamplePlatformAccessory {
     //
     // Here we change update the brightness to a random value every 5 seconds using 
     // the `updateCharacteristic` method.
-    setInterval(() => {
-      // assign the current brightness a random value between 0 and 100
-      const currentBrightness = Math.floor(Math.random() * 100);
-
-      // push the new value to HomeKit
-      this.service.updateCharacteristic(this.platform.Characteristic.Brightness, currentBrightness);
-
-      this.platform.log.debug('Pushed updated current Brightness state to HomeKit:', currentBrightness);
-    }, 10000);
+   
   }
 
   /**
@@ -79,6 +84,8 @@ export class ExamplePlatformAccessory {
 
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
+
+      ref.set("on");
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
@@ -102,7 +109,14 @@ export class ExamplePlatformAccessory {
   getOn(callback: CharacteristicGetCallback) {
 
     // implement your own code to check if the device is on
-    const isOn = this.exampleStates.On;
+    var isOn; 
+    
+    ref.once("value", function(snapshot) {
+      isOn = snapshot.val();
+    });
+
+
+
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
@@ -118,8 +132,7 @@ export class ExamplePlatformAccessory {
    */
   setBrightness(value: CharacteristicValue, callback: CharacteristicSetCallback) {
 
-    // implement your own code to set the brightness
-    this.exampleStates.Brightness = value as number;
+  
 
     this.platform.log.debug('Set Characteristic Brightness -> ', value);
 

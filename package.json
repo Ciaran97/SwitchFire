@@ -1,16 +1,16 @@
 {
   "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
+  "displayName": "Switch Fire",
+  "name": "homebridge-switchfire",
   "version": "1.0.0",
   "description": "A short description about what your plugin does.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git://github.com/Ciaran97/SwitchFire.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/Ciaran97/SwitchFire/issues"
   },
   "engines": {
     "node": ">=10.17.0",
@@ -26,7 +26,11 @@
   "keywords": [
     "homebridge-plugin"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "firebase-admin": "^9.0.0",
+    "install": "^0.13.0",
+    "npm": "^6.14.7"
+  },
   "devDependencies": {
     "@types/node": "^14.0.14",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
